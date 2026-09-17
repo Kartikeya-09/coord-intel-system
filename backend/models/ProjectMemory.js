@@ -1,4 +1,5 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
+
 const { Schema } = mongoose;
 
 const ProjectMemorySchema = new Schema(
@@ -29,4 +30,4 @@ ProjectMemorySchema.index({ summary: 'text' });
 ProjectMemorySchema.index({ project: 1, timestamp: -1 });
 ProjectMemorySchema.index({ project: 1, eventType: 1 });
 
-module.exports = mongoose.model('ProjectMemory', ProjectMemorySchema);
+export default mongoose.model('ProjectMemory', ProjectMemorySchema);

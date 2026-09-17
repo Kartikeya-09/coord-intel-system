@@ -1,8 +1,8 @@
-const Approval = require('../models/Approval');
-const { applyBlockingForApproval } = require('../services/approvalBlockingService');
-const { logMemory } = require('../utils/projectMemoryLogger');
+import Approval from '../models/Approval.js';
+import { applyBlockingForApproval } from '../services/approvalBlockingService.js';
+import { logMemory } from '../utils/projectMemoryLogger.js';
 
-exports.createApproval = async (req, res) => {
+export const createApproval = async (req, res) => {
   const { title, description, owner, project, status } = req.body;
 
   if (!title || !owner || !project) {
@@ -24,7 +24,7 @@ exports.createApproval = async (req, res) => {
   res.status(201).json(populated);
 };
 
-exports.getApprovalById = async (req, res) => {
+export const getApprovalById = async (req, res) => {
   const approval = await Approval.findById(req.params.id).populate('owner');
   if (!approval) {
     return res.status(404).json({ error: { message: 'Approval not found' } });
@@ -32,7 +32,7 @@ exports.getApprovalById = async (req, res) => {
   res.json(approval);
 };
 
-exports.updateApproval = async (req, res) => {
+export const updateApproval = async (req, res) => {
   const { title, description, owner, status } = req.body;
   const approval = await Approval.findById(req.params.id);
 
@@ -64,7 +64,7 @@ exports.updateApproval = async (req, res) => {
   res.json(updated);
 };
 
-exports.getProjectApprovals = async (req, res) => {
+export const getProjectApprovals = async (req, res) => {
   const { projectId } = req.params;
   const { status } = req.query;
 

@@ -1,7 +1,7 @@
-const Project = require('../models/Project');
-const Activity = require('../models/Activity');
+import Project from '../models/Project.js';
+import Activity from '../models/Activity.js';
 
-exports.createProject = async (req, res) => {
+export const createProject = async (req, res) => {
   const { name, client, startDate, endDate, phase, stakeholders } = req.body;
 
   if (!name || !client) {
@@ -24,12 +24,12 @@ exports.createProject = async (req, res) => {
   res.status(201).json(populated);
 };
 
-exports.getProjects = async (req, res) => {
+export const getProjects = async (req, res) => {
   const projects = await Project.find().populate('client');
   res.json(projects);
 };
 
-exports.getProjectById = async (req, res) => {
+export const getProjectById = async (req, res) => {
   const project = await Project.findById(req.params.id)
     .populate('client')
     .populate('stakeholders.stakeholder');
@@ -46,7 +46,7 @@ exports.getProjectById = async (req, res) => {
   res.json(projectObj);
 };
 
-exports.updateProject = async (req, res) => {
+export const updateProject = async (req, res) => {
   const { name, phase, startDate, endDate } = req.body;
   const project = await Project.findById(req.params.id);
 
@@ -64,7 +64,7 @@ exports.updateProject = async (req, res) => {
   res.json(updated);
 };
 
-exports.getProjectStakeholders = async (req, res) => {
+export const getProjectStakeholders = async (req, res) => {
   const project = await Project.findById(req.params.projectId).populate('stakeholders.stakeholder');
 
   if (!project) {
@@ -74,7 +74,7 @@ exports.getProjectStakeholders = async (req, res) => {
   res.json(project.stakeholders);
 };
 
-exports.addProjectStakeholder = async (req, res) => {
+export const addProjectStakeholder = async (req, res) => {
   const { projectId, stakeholderId } = req.params;
   const { responsibilityAreas } = req.body;
 
@@ -103,7 +103,7 @@ exports.addProjectStakeholder = async (req, res) => {
   res.status(201).json(updated.stakeholders);
 };
 
-exports.removeProjectStakeholder = async (req, res) => {
+export const removeProjectStakeholder = async (req, res) => {
   const { projectId, stakeholderId } = req.params;
 
   const project = await Project.findById(projectId);

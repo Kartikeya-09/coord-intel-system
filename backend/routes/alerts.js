@@ -1,7 +1,8 @@
-const express = require('express');
+import express from 'express';
+import * as alertController from '../controllers/alertController.js';
+
 const router = express.Router();
-const alertController = require('../controllers/alertController');
 
 router.put('/:id/read', alertController.markAlertAsRead);
 
-module.exports = router;
+export default router;

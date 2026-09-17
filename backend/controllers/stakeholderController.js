@@ -1,6 +1,6 @@
-const Stakeholder = require('../models/Stakeholder');
+import Stakeholder from '../models/Stakeholder.js';
 
-exports.createStakeholder = async (req, res) => {
+export const createStakeholder = async (req, res) => {
   const { name, role, contact } = req.body;
 
   if (!name || !role) {
@@ -14,7 +14,7 @@ exports.createStakeholder = async (req, res) => {
   res.status(201).json(stakeholder);
 };
 
-exports.getStakeholderById = async (req, res) => {
+export const getStakeholderById = async (req, res) => {
   const stakeholder = await Stakeholder.findById(req.params.id);
   if (!stakeholder) {
     return res.status(404).json({ error: { message: 'Stakeholder not found' } });
@@ -22,7 +22,7 @@ exports.getStakeholderById = async (req, res) => {
   res.json(stakeholder);
 };
 
-exports.updateStakeholder = async (req, res) => {
+export const updateStakeholder = async (req, res) => {
   const { name, role, contact } = req.body;
   const stakeholder = await Stakeholder.findById(req.params.id);
 

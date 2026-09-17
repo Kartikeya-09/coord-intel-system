@@ -1,4 +1,5 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
+
 const { Schema } = mongoose;
 
 const StakeholderSchema = new Schema(
@@ -29,4 +30,4 @@ const StakeholderSchema = new Schema(
 
 StakeholderSchema.index({ name: 'text' });
 
-module.exports = mongoose.model('Stakeholder', StakeholderSchema);
+export default mongoose.model('Stakeholder', StakeholderSchema);

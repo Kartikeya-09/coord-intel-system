@@ -1,4 +1,5 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
+
 const { Schema } = mongoose;
 
 const ActionSchema = new Schema(
@@ -22,4 +23,4 @@ const ActionSchema = new Schema(
 ActionSchema.index({ project: 1, status: 1 });
 ActionSchema.index({ assignee: 1, status: 1 });
 
-module.exports = mongoose.model('Action', ActionSchema);
+export default mongoose.model('Action', ActionSchema);

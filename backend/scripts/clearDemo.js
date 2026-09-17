@@ -1,6 +1,6 @@
-require('dotenv').config();
-const mongoose = require('mongoose');
-const { connectDb, disconnectDb } = require('../utils/connectDb');
+import 'dotenv/config';
+import mongoose from 'mongoose';
+import { connectDb, disconnectDb } from '../utils/connectDb.js';
 
 async function clearDemo() {
   try {

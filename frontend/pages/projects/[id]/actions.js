@@ -10,7 +10,7 @@ import {
   createAction,
   updateActionStatus
 } from '../../../lib/api';
-import { CheckSquare, Plus, User } from 'lucide-react';
+import { CheckSquare, Plus, User, Sparkles } from 'lucide-react';
 
 export default function ActionsPage() {
   const router = useRouter();
@@ -103,14 +103,17 @@ export default function ActionsPage() {
     <div className="flex min-h-[calc(100vh-4rem)]">
       <ProjectNav projectId={id} />
 
-      <main className="flex-1 p-8 max-w-7xl">
-        <div className="mb-6">
-          <h1 className="text-2xl font-bold tracking-tight text-white flex items-center gap-2">
-            <CheckSquare className="w-7 h-7 text-sky-400" />
+      <main className="flex-1 p-8 max-w-7xl w-full">
+        <div className="mb-8">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-500/10 border border-sky-500/20 text-sky-400 text-xs font-bold uppercase tracking-wider mb-2">
+            <CheckSquare className="w-3.5 h-3.5" />
+            <span>Task Execution</span>
+          </div>
+          <h1 className="text-3xl font-extrabold tracking-tight text-white flex items-center gap-3">
             Actions Board
           </h1>
-          <p className="text-sm text-slate-400 mt-1">
-            Track active action items grouped by assigned stakeholder.
+          <p className="text-xs sm:text-sm text-slate-400 mt-1 font-normal">
+            Track active action items grouped by assigned stakeholder. Auto-generated actions from Change Events appear here with instant status controls.
           </p>
         </div>
 
@@ -119,9 +122,9 @@ export default function ActionsPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2">
             {loading ? (
-              <div className="flex items-center justify-center p-12 text-slate-400">
-                <div className="w-6 h-6 border-2 border-sky-400 border-t-transparent rounded-full animate-spin mr-3" />
-                <span>Loading action board...</span>
+              <div className="flex flex-col items-center justify-center p-16 text-slate-400 gap-3">
+                <div className="w-8 h-8 border-3 border-sky-400 border-t-transparent rounded-full animate-spin" />
+                <span className="text-xs font-semibold">Loading action board...</span>
               </div>
             ) : groupKeys.length === 0 ? (
               <EmptyState
@@ -135,21 +138,28 @@ export default function ActionsPage() {
                   return (
                     <div
                       key={key}
-                      className="p-5 rounded-2xl bg-slate-900/60 border border-slate-800 backdrop-blur-xl shadow-xl flex flex-col gap-3"
+                      className="p-6 rounded-3xl bg-slate-900/60 border border-slate-800/80 backdrop-blur-xl shadow-xl flex flex-col gap-4 hover:border-slate-700/80 transition-all"
                     >
-                      <div className="flex items-center justify-between pb-3 border-b border-slate-800">
-                        <div className="flex items-center gap-2">
-                          <User className="w-4 h-4 text-sky-400" />
-                          <h3 className="text-sm font-bold text-slate-100">
-                            {group.assignee?.name}
-                          </h3>
+                      <div className="flex items-center justify-between pb-3 border-b border-slate-800/80">
+                        <div className="flex items-center gap-2.5">
+                          <div className="w-8 h-8 rounded-xl bg-sky-500/10 border border-sky-500/20 flex items-center justify-center text-sky-400 font-bold text-xs">
+                            <User className="w-4 h-4" />
+                          </div>
+                          <div>
+                            <h3 className="text-sm font-extrabold text-slate-100">
+                              {group.assignee?.name}
+                            </h3>
+                            <span className="text-[10px] text-slate-400 font-medium">
+                              {group.actions.length} Action{group.actions.length > 1 ? 's' : ''}
+                            </span>
+                          </div>
                         </div>
-                        <span className="px-2 py-0.5 text-[10px] font-extrabold uppercase bg-slate-800 text-slate-400 rounded border border-slate-700">
+                        <span className="px-2.5 py-0.5 text-[10px] font-extrabold uppercase bg-slate-950 text-slate-300 rounded-md border border-slate-800">
                           {group.assignee?.role}
                         </span>
                       </div>
 
-                      <div className="flex flex-col gap-2 mt-1">
+                      <div className="flex flex-col gap-2.5 mt-1">
                         {group.actions.map((act) => (
                           <ActionCard
                             key={act._id}
@@ -166,8 +176,8 @@ export default function ActionsPage() {
           </div>
 
           <div>
-            <div className="p-6 rounded-2xl bg-slate-900/60 border border-slate-800 backdrop-blur-xl shadow-xl sticky top-24">
-              <h3 className="text-base font-bold text-white flex items-center gap-2 mb-4">
+            <div className="p-6 rounded-3xl bg-slate-900/60 border border-slate-800/80 backdrop-blur-xl shadow-2xl sticky top-24">
+              <h3 className="text-base font-extrabold text-white flex items-center gap-2 mb-4">
                 <Plus className="w-5 h-5 text-sky-400" />
                 Create Manual Action
               </h3>
@@ -179,7 +189,7 @@ export default function ActionsPage() {
                   </label>
                   <input
                     type="text"
-                    className="w-full px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-800 text-slate-100 text-xs focus:outline-none focus:border-sky-500 transition-colors"
+                    className="w-full px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-slate-100 text-xs focus:outline-none focus:border-sky-500 transition-colors"
                     placeholder="e.g. Review updated floor plan"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
@@ -192,7 +202,7 @@ export default function ActionsPage() {
                     Assignee *
                   </label>
                   <select
-                    className="w-full px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-800 text-slate-100 text-xs focus:outline-none focus:border-sky-500 transition-colors"
+                    className="w-full px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-slate-100 text-xs focus:outline-none focus:border-sky-500 transition-colors"
                     value={assignee}
                     onChange={(e) => setAssignee(e.target.value)}
                     required
@@ -211,7 +221,7 @@ export default function ActionsPage() {
                     Description
                   </label>
                   <textarea
-                    className="w-full px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-800 text-slate-100 text-xs focus:outline-none focus:border-sky-500 transition-colors"
+                    className="w-full px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-slate-100 text-xs focus:outline-none focus:border-sky-500 transition-colors"
                     placeholder="Action details..."
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
@@ -225,7 +235,7 @@ export default function ActionsPage() {
                   </label>
                   <input
                     type="date"
-                    className="w-full px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-800 text-slate-100 text-xs focus:outline-none focus:border-sky-500 transition-colors"
+                    className="w-full px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-slate-100 text-xs focus:outline-none focus:border-sky-500 transition-colors"
                     value={dueDate}
                     onChange={(e) => setDueDate(e.target.value)}
                   />
@@ -234,7 +244,7 @@ export default function ActionsPage() {
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="w-full mt-2 py-2.5 rounded-xl font-semibold text-xs bg-gradient-to-r from-sky-500 to-indigo-600 hover:from-sky-400 hover:to-indigo-500 text-white shadow-lg shadow-sky-500/20 transition-all duration-200"
+                  className="w-full mt-2 py-3 rounded-xl font-bold text-xs bg-gradient-to-r from-sky-500 to-indigo-600 hover:from-sky-400 hover:to-indigo-500 text-white shadow-lg shadow-sky-500/20 transition-all duration-200"
                 >
                   {submitting ? 'Creating...' : 'Create Action'}
                 </button>
@@ -246,3 +256,4 @@ export default function ActionsPage() {
     </div>
   );
 }
+

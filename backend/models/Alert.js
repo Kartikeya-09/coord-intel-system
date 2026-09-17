@@ -1,4 +1,5 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
+
 const { Schema } = mongoose;
 
 const AlertSchema = new Schema(
@@ -23,4 +24,4 @@ const AlertSchema = new Schema(
 AlertSchema.index({ stakeholder: 1, isRead: 1 });
 AlertSchema.index({ stakeholder: 1, createdAt: -1 });
 
-module.exports = mongoose.model('Alert', AlertSchema);
+export default mongoose.model('Alert', AlertSchema);

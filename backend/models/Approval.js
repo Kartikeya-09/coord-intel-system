@@ -1,4 +1,5 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
+
 const { Schema } = mongoose;
 
 const ApprovalSchema = new Schema(
@@ -18,4 +19,4 @@ const ApprovalSchema = new Schema(
 
 ApprovalSchema.index({ project: 1, status: 1 });
 
-module.exports = mongoose.model('Approval', ApprovalSchema);
+export default mongoose.model('Approval', ApprovalSchema);

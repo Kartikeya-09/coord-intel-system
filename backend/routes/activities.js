@@ -1,9 +1,10 @@
-const express = require('express');
+import express from 'express';
+import * as activityController from '../controllers/activityController.js';
+
 const router = express.Router();
-const activityController = require('../controllers/activityController');
 
 router.post('/', activityController.createActivity);
 router.get('/:id', activityController.getActivityById);
 router.put('/:id', activityController.updateActivity);
 
-module.exports = router;
+export default router;

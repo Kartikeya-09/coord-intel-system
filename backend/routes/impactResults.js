@@ -1,7 +1,8 @@
-const express = require('express');
+import express from 'express';
+import * as impactResultController from '../controllers/impactResultController.js';
+
 const router = express.Router();
-const impactResultController = require('../controllers/impactResultController');
 
 router.get('/:id', impactResultController.getImpactResultById);
 
-module.exports = router;
+export default router;

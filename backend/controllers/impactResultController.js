@@ -1,6 +1,6 @@
-const ImpactResult = require('../models/ImpactResult');
+import ImpactResult from '../models/ImpactResult.js';
 
-exports.getImpactResultById = async (req, res) => {
+export const getImpactResultById = async (req, res) => {
   const impactResult = await ImpactResult.findById(req.params.id)
     .populate('affectedActivities')
     .populate('affectedApprovals')
@@ -13,7 +13,7 @@ exports.getImpactResultById = async (req, res) => {
   res.json(impactResult);
 };
 
-exports.getImpactResultByChangeEvent = async (req, res) => {
+export const getImpactResultByChangeEvent = async (req, res) => {
   const { changeEventId } = req.params;
   const impactResult = await ImpactResult.findOne({ changeEvent: changeEventId })
     .populate('affectedActivities')

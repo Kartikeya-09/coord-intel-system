@@ -1,7 +1,7 @@
-const Dependency = require('../models/Dependency');
-const dependencyService = require('../services/dependencyService');
+import Dependency from '../models/Dependency.js';
+import * as dependencyService from '../services/dependencyService.js';
 
-exports.createDependency = async (req, res) => {
+export const createDependency = async (req, res) => {
   const { project, fromEntity, fromModel, toEntity, toModel } = req.body;
 
   if (!project || !fromEntity || !fromModel || !toEntity || !toModel) {
@@ -39,7 +39,7 @@ exports.createDependency = async (req, res) => {
   res.status(201).json(dependency);
 };
 
-exports.deleteDependency = async (req, res) => {
+export const deleteDependency = async (req, res) => {
   const dependency = await Dependency.findById(req.params.id);
   if (!dependency) {
     return res.status(404).json({ error: { message: 'Dependency not found' } });
@@ -49,7 +49,7 @@ exports.deleteDependency = async (req, res) => {
   res.json({ message: 'Dependency deleted successfully' });
 };
 
-exports.getProjectDependencies = async (req, res) => {
+export const getProjectDependencies = async (req, res) => {
   const { projectId } = req.params;
   const dependencies = await Dependency.find({ project: projectId })
     .populate('fromEntity')

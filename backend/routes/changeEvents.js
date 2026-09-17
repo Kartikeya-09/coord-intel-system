@@ -1,10 +1,11 @@
-const express = require('express');
+import express from 'express';
+import * as changeEventController from '../controllers/changeEventController.js';
+import * as impactResultController from '../controllers/impactResultController.js';
+
 const router = express.Router();
-const changeEventController = require('../controllers/changeEventController');
-const impactResultController = require('../controllers/impactResultController');
 
 router.post('/', changeEventController.createChangeEvent);
 router.get('/:id', changeEventController.getChangeEventById);
 router.get('/:changeEventId/impact-result', impactResultController.getImpactResultByChangeEvent);
 
-module.exports = router;
+export default router;

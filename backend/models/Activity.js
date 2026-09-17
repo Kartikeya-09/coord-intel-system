@@ -1,4 +1,5 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
+
 const { Schema } = mongoose;
 
 const ActivitySchema = new Schema(
@@ -21,4 +22,4 @@ const ActivitySchema = new Schema(
 ActivitySchema.index({ project: 1, status: 1 });
 ActivitySchema.index({ owner: 1 });
 
-module.exports = mongoose.model('Activity', ActivitySchema);
+export default mongoose.model('Activity', ActivitySchema);

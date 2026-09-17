@@ -1,4 +1,5 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
+
 const { Schema } = mongoose;
 
 const ProjectStakeholderSchema = new Schema(
@@ -23,4 +24,4 @@ const ProjectSchema = new Schema(
 
 ProjectSchema.index({ name: 'text' });
 
-module.exports = mongoose.model('Project', ProjectSchema);
+export default mongoose.model('Project', ProjectSchema);

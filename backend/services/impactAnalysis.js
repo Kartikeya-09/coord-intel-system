@@ -1,6 +1,6 @@
-const Dependency = require('../models/Dependency');
-const Activity = require('../models/Activity');
-const Approval = require('../models/Approval');
+import Dependency from '../models/Dependency.js';
+import Activity from '../models/Activity.js';
+import Approval from '../models/Approval.js';
 
 /**
  * Core Intelligence Service - BFS Traversal of Dependency Graph
@@ -13,7 +13,7 @@ const Approval = require('../models/Approval');
  *
  * @returns {Promise<Object>} ImpactAnalysisResult
  */
-async function run({ projectId, startEntities, changeEventId, changeEventName }) {
+export async function run({ projectId, startEntities, changeEventId, changeEventName }) {
   if (!startEntities || startEntities.length === 0) {
     return {
       affectedActivityIds: [],
@@ -179,4 +179,4 @@ async function run({ projectId, startEntities, changeEventId, changeEventName })
   };
 }
 
-module.exports = { run };
+export default { run };

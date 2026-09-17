@@ -10,11 +10,11 @@ import {
 } from 'lucide-react';
 
 const EVENT_ICONS = {
-  change_event_created: { icon: GitPullRequest, color: 'text-sky-400 bg-sky-500/10 border-sky-500/20' },
-  impact_result_produced: { icon: Cpu, color: 'text-purple-400 bg-purple-500/10 border-purple-500/20' },
-  action_created: { icon: Zap, color: 'text-amber-400 bg-amber-500/10 border-amber-500/20' },
-  action_completed: { icon: CheckCircle2, color: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20' },
-  approval_status_changed: { icon: FileCheck2, color: 'text-indigo-400 bg-indigo-500/10 border-indigo-500/20' }
+  change_event_created: { icon: GitPullRequest, color: 'text-sky-400 bg-sky-500/15 border-sky-500/30' },
+  impact_result_produced: { icon: Cpu, color: 'text-purple-400 bg-purple-500/15 border-purple-500/30' },
+  action_created: { icon: Zap, color: 'text-amber-400 bg-amber-500/15 border-amber-500/30' },
+  action_completed: { icon: CheckCircle2, color: 'text-emerald-400 bg-emerald-500/15 border-emerald-500/30' },
+  approval_status_changed: { icon: FileCheck2, color: 'text-indigo-400 bg-indigo-500/15 border-indigo-500/30' }
 };
 
 export default function RecentMemoryList({ memoryEntries = [] }) {
@@ -28,30 +28,32 @@ export default function RecentMemoryList({ memoryEntries = [] }) {
   }
 
   return (
-    <div className="flex flex-col gap-3">
-      {memoryEntries.slice(0, 3).map((entry) => {
+    <div className="flex flex-col gap-3.5">
+      {memoryEntries.slice(0, 5).map((entry, idx) => {
         const config = EVENT_ICONS[entry.eventType] || { icon: History, color: 'text-slate-400 bg-slate-800 border-slate-700' };
         const Icon = config.icon;
 
         return (
           <div
-            key={entry._id}
-            className="flex items-start gap-4 p-4 rounded-xl bg-slate-900/40 border border-slate-800/80 hover:border-slate-700/80 transition-all"
+            key={entry._id || idx}
+            className="flex items-start gap-4 p-4 rounded-2xl bg-slate-950/70 border border-slate-800/80 hover:border-slate-700 transition-all shadow-sm hover:shadow-md group"
           >
-            <div className={`p-2.5 rounded-xl border ${config.color} shrink-0`}>
-              <Icon className="w-5 h-5" />
+            <div className={`p-2.5 rounded-xl border ${config.color} shrink-0 group-hover:scale-105 transition-transform`}>
+              <Icon className="w-4 h-4" />
             </div>
 
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium text-slate-200 leading-snug">
+              <p className="text-xs font-bold text-slate-100 leading-relaxed group-hover:text-sky-300 transition-colors">
                 {entry.summary}
               </p>
-              <div className="flex items-center gap-2 mt-1.5 text-xs text-slate-400">
-                <span>{new Date(entry.timestamp).toLocaleString()}</span>
-                <span>•</span>
-                <span className="font-semibold text-slate-400">
-                  {entry.actor?.ref?.name || entry.actor?.type || 'System'}
+              <div className="flex items-center gap-2 mt-2 text-[11px] text-slate-400">
+                <span className="font-mono text-[9px] uppercase px-1.5 py-0.5 rounded bg-slate-900 text-slate-300 border border-slate-800">
+                  {entry.eventType}
                 </span>
+                <span>•</span>
+                <span>Actor: <strong className="text-slate-300 font-bold">{entry.actor?.ref?.name || entry.actor?.type || 'System'}</strong></span>
+                <span>•</span>
+                <span className="font-mono text-slate-500">{new Date(entry.timestamp).toLocaleString()}</span>
               </div>
             </div>
           </div>
@@ -60,3 +62,4 @@ export default function RecentMemoryList({ memoryEntries = [] }) {
     </div>
   );
 }
+

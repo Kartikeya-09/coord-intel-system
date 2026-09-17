@@ -1,11 +1,35 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   body {
-    @apply bg-slate-900 text-slate-100 antialiased selection:bg-sky-500 selection:text-white font-sans min-h-screen;
+    @apply bg-slate-950 text-slate-100 antialiased selection:bg-sky-500 selection:text-white font-sans min-h-screen relative overflow-x-hidden;
   }
+}
+
+/* Glassmorphism & Custom Card Utilities */
+.glass-panel {
+  @apply bg-slate-900/60 border border-slate-800/80 backdrop-blur-xl shadow-xl hover:border-slate-700/80 transition-all duration-300;
+}
+
+.glass-panel-interactive {
+  @apply glass-panel hover:bg-slate-900/80 hover:shadow-2xl hover:shadow-sky-500/10 hover:-translate-y-0.5 active:translate-y-0;
+}
+
+.glass-card-glow {
+  @apply relative overflow-hidden before:absolute before:inset-0 before:bg-gradient-to-r before:from-sky-500/10 before:via-indigo-500/10 before:to-purple-500/10 before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-500;
+}
+
+/* Text Gradient Utilities */
+.gradient-text-sky {
+  @apply bg-gradient-to-r from-sky-400 via-indigo-300 to-purple-400 bg-clip-text text-transparent;
+}
+
+.gradient-text-amber {
+  @apply bg-gradient-to-r from-amber-400 via-rose-300 to-amber-500 bg-clip-text text-transparent;
 }
 
 /* Custom Scrollbars */
@@ -15,14 +39,15 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: #0f172a;
+  background: #090d16;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #334155;
-  border-radius: 4px;
+  background: #1e293b;
+  border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #475569;
+  background: #334155;
 }
+

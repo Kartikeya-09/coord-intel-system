@@ -1,4 +1,5 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
+
 const { Schema } = mongoose;
 
 const DependencySchema = new Schema(
@@ -16,4 +17,4 @@ DependencySchema.index({ project: 1 });
 DependencySchema.index({ fromEntity: 1 });
 DependencySchema.index({ toEntity: 1 });
 
-module.exports = mongoose.model('Dependency', DependencySchema);
+export default mongoose.model('Dependency', DependencySchema);

@@ -1,7 +1,7 @@
-const User = require('../models/User');
-const { generateToken } = require('../middleware/auth');
+import User from '../models/User.js';
+import { generateToken } from '../middleware/auth.js';
 
-exports.register = async (req, res) => {
+export const register = async (req, res) => {
   const { name, email, password, role, stakeholder } = req.body;
 
   if (!name || !email || !password) {
@@ -34,7 +34,7 @@ exports.register = async (req, res) => {
   });
 };
 
-exports.login = async (req, res) => {
+export const login = async (req, res) => {
   const { email, password } = req.body;
 
   if (!email || !password) {
@@ -61,7 +61,7 @@ exports.login = async (req, res) => {
   });
 };
 
-exports.demoLogin = async (req, res) => {
+export const demoLogin = async (req, res) => {
   const { email, role } = req.body;
 
   let user;
@@ -88,7 +88,7 @@ exports.demoLogin = async (req, res) => {
   });
 };
 
-exports.getMe = async (req, res) => {
+export const getMe = async (req, res) => {
   res.json({
     user: req.user
   });

@@ -1,8 +1,8 @@
-const Dependency = require('../models/Dependency');
-const Activity = require('../models/Activity');
-const Approval = require('../models/Approval');
+import Dependency from '../models/Dependency.js';
+import Activity from '../models/Activity.js';
+import Approval from '../models/Approval.js';
 
-function validateEntityTypePair(fromModel, toModel) {
+export function validateEntityTypePair(fromModel, toModel) {
   const validPairs = [
     'Activity->Activity',
     'Activity->Approval',
@@ -22,7 +22,7 @@ async function getEntityName(id, model) {
   return id.toString();
 }
 
-async function detectCycle(projectId, fromEntityId, toEntityId) {
+export async function detectCycle(projectId, fromEntityId, toEntityId) {
   const edges = await Dependency.find({ project: projectId }).lean();
 
   const fromStr = fromEntityId.toString();
@@ -95,8 +95,3 @@ async function detectCycle(projectId, fromEntityId, toEntityId) {
 
   return { hasCycle: false };
 }
-
-module.exports = {
-  validateEntityTypePair,
-  detectCycle
-};

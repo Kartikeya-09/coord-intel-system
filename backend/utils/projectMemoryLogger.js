@@ -1,4 +1,4 @@
-const ProjectMemory = require('../models/ProjectMemory');
+import ProjectMemory from '../models/ProjectMemory.js';
 
 /**
  * Helper to append an entry to ProjectMemory.
@@ -10,7 +10,7 @@ const ProjectMemory = require('../models/ProjectMemory');
  * @param {string} [params.actorType='system'] - 'stakeholder' | 'system'
  * @param {string} [params.actorRef=null] - Stakeholder ObjectId if actorType is 'stakeholder'
  */
-async function logMemory({ projectId, eventType, summary, actorType = 'system', actorRef = null }) {
+export async function logMemory({ projectId, eventType, summary, actorType = 'system', actorRef = null }) {
   const memoryEntry = new ProjectMemory({
     project: projectId,
     eventType,
@@ -23,5 +23,3 @@ async function logMemory({ projectId, eventType, summary, actorType = 'system', 
 
   return await memoryEntry.save();
 }
-
-module.exports = { logMemory };

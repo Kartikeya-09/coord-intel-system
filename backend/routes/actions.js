@@ -1,9 +1,10 @@
-const express = require('express');
+import express from 'express';
+import * as actionController from '../controllers/actionController.js';
+
 const router = express.Router();
-const actionController = require('../controllers/actionController');
 
 router.post('/', actionController.createAction);
 router.get('/:id', actionController.getActionById);
 router.put('/:id', actionController.updateAction);
 
-module.exports = router;
+export default router;

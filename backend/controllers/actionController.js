@@ -1,7 +1,7 @@
-const Action = require('../models/Action');
-const { logMemory } = require('../utils/projectMemoryLogger');
+import Action from '../models/Action.js';
+import { logMemory } from '../utils/projectMemoryLogger.js';
 
-exports.createAction = async (req, res) => {
+export const createAction = async (req, res) => {
   const { title, description, assignee, project, dueDate, status } = req.body;
 
   if (!title || !assignee || !project) {
@@ -34,7 +34,7 @@ exports.createAction = async (req, res) => {
   res.status(201).json(populated);
 };
 
-exports.getActionById = async (req, res) => {
+export const getActionById = async (req, res) => {
   const action = await Action.findById(req.params.id).populate('assignee');
   if (!action) {
     return res.status(404).json({ error: { message: 'Action not found' } });
@@ -42,7 +42,7 @@ exports.getActionById = async (req, res) => {
   res.json(action);
 };
 
-exports.updateAction = async (req, res) => {
+export const updateAction = async (req, res) => {
   const { status, assignee, dueDate, title, description } = req.body;
   const action = await Action.findById(req.params.id);
 
@@ -74,7 +74,7 @@ exports.updateAction = async (req, res) => {
   res.json(updated);
 };
 
-exports.getProjectActions = async (req, res) => {
+export const getProjectActions = async (req, res) => {
   const { projectId } = req.params;
 
   const actions = await Action.find({

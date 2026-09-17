@@ -1,19 +1,24 @@
-const path = require('path');
-require('dotenv').config({ path: path.resolve(__dirname, '..', '.env') });
-const mongoose = require('mongoose');
-const { connectDb, disconnectDb } = require('../utils/connectDb');
-const Stakeholder = require('../models/Stakeholder');
-const Project = require('../models/Project');
-const Activity = require('../models/Activity');
-const Approval = require('../models/Approval');
-const Dependency = require('../models/Dependency');
-const ChangeEvent = require('../models/ChangeEvent');
-const ImpactResult = require('../models/ImpactResult');
-const Alert = require('../models/Alert');
-const Action = require('../models/Action');
-const User = require('../models/User');
-const impactAnalysis = require('../services/impactAnalysis');
-const { logMemory } = require('../utils/projectMemoryLogger');
+import path from 'path';
+import { fileURLToPath } from 'url';
+import dotenv from 'dotenv';
+import mongoose from 'mongoose';
+import { connectDb, disconnectDb } from '../utils/connectDb.js';
+import Stakeholder from '../models/Stakeholder.js';
+import Project from '../models/Project.js';
+import Activity from '../models/Activity.js';
+import Approval from '../models/Approval.js';
+import Dependency from '../models/Dependency.js';
+import ChangeEvent from '../models/ChangeEvent.js';
+import ImpactResult from '../models/ImpactResult.js';
+import Alert from '../models/Alert.js';
+import Action from '../models/Action.js';
+import User from '../models/User.js';
+import impactAnalysis from '../services/impactAnalysis.js';
+import { logMemory } from '../utils/projectMemoryLogger.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+dotenv.config({ path: path.resolve(__dirname, '..', '.env') });
 
 async function findOrCreateStakeholder(stakeholder) {
   return Stakeholder.findOneAndUpdate(

@@ -1,4 +1,5 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
+
 const { Schema } = mongoose;
 
 const ReasoningStepSchema = new Schema(
@@ -38,4 +39,4 @@ const ImpactResultSchema = new Schema(
 ImpactResultSchema.index({ changeEvent: 1 }, { unique: true });
 ImpactResultSchema.index({ project: 1 });
 
-module.exports = mongoose.model('ImpactResult', ImpactResultSchema);
+export default mongoose.model('ImpactResult', ImpactResultSchema);

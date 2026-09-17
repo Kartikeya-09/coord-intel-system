@@ -13,7 +13,7 @@ import {
   createActivity,
   createDependency
 } from '../../../lib/api';
-import { GitFork, Plus, Lock, Calendar, User } from 'lucide-react';
+import { GitFork, Plus, Lock, Calendar, User, Network, Sparkles } from 'lucide-react';
 
 export default function ActivitiesPage() {
   const router = useRouter();
@@ -137,14 +137,17 @@ export default function ActivitiesPage() {
     <div className="flex min-h-[calc(100vh-4rem)]">
       <ProjectNav projectId={id} />
 
-      <main className="flex-1 p-8 max-w-7xl">
-        <div className="mb-6">
-          <h1 className="text-2xl font-bold tracking-tight text-white flex items-center gap-2">
-            <GitFork className="w-7 h-7 text-sky-400" />
+      <main className="flex-1 p-8 max-w-7xl w-full">
+        <div className="mb-8">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-500/10 border border-sky-500/20 text-sky-400 text-xs font-bold uppercase tracking-wider mb-2">
+            <GitFork className="w-3.5 h-3.5" />
+            <span>Project Tasks & Topology</span>
+          </div>
+          <h1 className="text-3xl font-extrabold tracking-tight text-white flex items-center gap-3">
             Activities & Dependency Graph
           </h1>
-          <p className="text-sm text-slate-400 mt-1">
-            Track project activities and construct directed dependency graph edges.
+          <p className="text-xs sm:text-sm text-slate-400 mt-1 font-normal">
+            Track activities, assign owners, and construct directed dependency graph edges between tasks and approvals.
           </p>
         </div>
 
@@ -152,21 +155,21 @@ export default function ActivitiesPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
           <div className="lg:col-span-2">
-            <h2 className="text-base font-bold text-white mb-4">Activities List</h2>
+            <h2 className="text-base font-extrabold text-white mb-4">Activities List ({activities.length})</h2>
 
             {loading ? (
-              <div className="flex items-center justify-center p-12 text-slate-400">
-                <div className="w-6 h-6 border-2 border-sky-400 border-t-transparent rounded-full animate-spin mr-3" />
-                <span>Loading activities...</span>
+              <div className="flex flex-col items-center justify-center p-16 text-slate-400 gap-3">
+                <div className="w-8 h-8 border-3 border-sky-400 border-t-transparent rounded-full animate-spin" />
+                <span className="text-xs font-semibold">Loading activities...</span>
               </div>
             ) : activities.length === 0 ? (
-              <EmptyState title="No activities created" message="Create your first activity using the form." />
+              <EmptyState title="No activities created" message="Create your first activity using the form on the right." />
             ) : (
-              <div className="overflow-hidden rounded-2xl bg-slate-900/60 border border-slate-800 backdrop-blur-xl shadow-xl">
+              <div className="overflow-hidden rounded-3xl bg-slate-900/60 border border-slate-800/80 backdrop-blur-xl shadow-xl">
                 <table className="w-full text-left border-collapse text-xs">
                   <thead>
-                    <tr className="bg-slate-950/80 border-b border-slate-800 text-slate-400 font-bold uppercase tracking-wider">
-                      <th className="p-4">Activity</th>
+                    <tr className="bg-slate-950/90 border-b border-slate-800/90 text-slate-400 font-extrabold uppercase tracking-wider">
+                      <th className="p-4">Activity Name</th>
                       <th className="p-4">Owner</th>
                       <th className="p-4">Status</th>
                       <th className="p-4">Due Date</th>
@@ -175,11 +178,11 @@ export default function ActivitiesPage() {
                   <tbody className="divide-y divide-slate-800/60 text-slate-200">
                     {activities.map((act) => (
                       <tr key={act._id} className="hover:bg-slate-800/40 transition-colors">
-                        <td className="p-4 font-semibold">
+                        <td className="p-4 font-bold">
                           <div className="flex items-center gap-2">
-                            <span>{act.name}</span>
+                            <span className="text-slate-100">{act.name}</span>
                             {act.isBlocked && (
-                              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-extrabold bg-rose-500/10 text-rose-400 border border-rose-500/20">
+                              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[9px] font-extrabold bg-rose-500/20 text-rose-300 border border-rose-500/30 animate-pulse">
                                 <Lock className="w-3 h-3" />
                                 BLOCKED
                               </span>
@@ -189,13 +192,13 @@ export default function ActivitiesPage() {
                             <div className="text-[11px] text-slate-400 font-normal mt-0.5">{act.description}</div>
                           )}
                         </td>
-                        <td className="p-4 font-medium text-slate-300">
+                        <td className="p-4 font-semibold text-slate-300">
                           {act.owner?.name || 'Unassigned'}
                         </td>
                         <td className="p-4">
                           <StatusBadge status={act.status} />
                         </td>
-                        <td className="p-4 text-slate-400 font-medium">
+                        <td className="p-4 text-slate-400 font-mono">
                           {act.dueDate ? new Date(act.dueDate).toLocaleDateString() : 'N/A'}
                         </td>
                       </tr>
@@ -207,8 +210,8 @@ export default function ActivitiesPage() {
           </div>
 
           <div>
-            <div className="p-6 rounded-2xl bg-slate-900/60 border border-slate-800 backdrop-blur-xl shadow-xl sticky top-24">
-              <h3 className="text-base font-bold text-white flex items-center gap-2 mb-4">
+            <div className="p-6 rounded-3xl bg-slate-900/60 border border-slate-800/80 backdrop-blur-xl shadow-2xl sticky top-24">
+              <h3 className="text-base font-extrabold text-white flex items-center gap-2 mb-4">
                 <Plus className="w-5 h-5 text-sky-400" />
                 New Activity
               </h3>
@@ -220,7 +223,7 @@ export default function ActivitiesPage() {
                   </label>
                   <input
                     type="text"
-                    className="w-full px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-800 text-slate-100 text-xs focus:outline-none focus:border-sky-500 transition-colors"
+                    className="w-full px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-slate-100 text-xs focus:outline-none focus:border-sky-500 transition-colors"
                     placeholder="e.g. Flooring Material Order"
                     value={actName}
                     onChange={(e) => setActName(e.target.value)}
@@ -233,7 +236,7 @@ export default function ActivitiesPage() {
                     Owner *
                   </label>
                   <select
-                    className="w-full px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-800 text-slate-100 text-xs focus:outline-none focus:border-sky-500 transition-colors"
+                    className="w-full px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-slate-100 text-xs focus:outline-none focus:border-sky-500 transition-colors"
                     value={actOwner}
                     onChange={(e) => setActOwner(e.target.value)}
                     required
@@ -252,7 +255,7 @@ export default function ActivitiesPage() {
                     Description
                   </label>
                   <textarea
-                    className="w-full px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-800 text-slate-100 text-xs focus:outline-none focus:border-sky-500 transition-colors"
+                    className="w-full px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-slate-100 text-xs focus:outline-none focus:border-sky-500 transition-colors"
                     placeholder="Task details..."
                     value={actDesc}
                     onChange={(e) => setActDesc(e.target.value)}
@@ -266,7 +269,7 @@ export default function ActivitiesPage() {
                   </label>
                   <input
                     type="date"
-                    className="w-full px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-800 text-slate-100 text-xs focus:outline-none focus:border-sky-500 transition-colors"
+                    className="w-full px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-slate-100 text-xs focus:outline-none focus:border-sky-500 transition-colors"
                     value={actDueDate}
                     onChange={(e) => setActDueDate(e.target.value)}
                   />
@@ -275,7 +278,7 @@ export default function ActivitiesPage() {
                 <button
                   type="submit"
                   disabled={submittingAct}
-                  className="w-full mt-2 py-2.5 rounded-xl font-semibold text-xs bg-gradient-to-r from-sky-500 to-indigo-600 hover:from-sky-400 hover:to-indigo-500 text-white shadow-lg shadow-sky-500/20 transition-all duration-200"
+                  className="w-full mt-2 py-3 rounded-xl font-bold text-xs bg-gradient-to-r from-sky-500 to-indigo-600 hover:from-sky-400 hover:to-indigo-500 text-white shadow-lg shadow-sky-500/20 transition-all duration-200"
                 >
                   {submittingAct ? 'Creating...' : 'Create Activity'}
                 </button>
@@ -284,20 +287,24 @@ export default function ActivitiesPage() {
           </div>
         </div>
 
-        {/* Dependency Section */}
-        <div className="p-6 rounded-2xl bg-slate-900/60 border border-slate-800 backdrop-blur-xl shadow-xl">
-          <h2 className="text-base font-bold text-white mb-1">
-            Dependency Edges (Graph Constructor)
+        {/* Dependency Graph Constructor Section */}
+        <div className="p-8 rounded-3xl bg-slate-900/60 border border-slate-800/80 backdrop-blur-xl shadow-2xl">
+          <div className="flex items-center gap-2 text-xs font-extrabold uppercase tracking-wider text-sky-400 mb-1">
+            <Network className="w-4 h-4" />
+            <span>Graph Builder</span>
+          </div>
+          <h2 className="text-xl font-extrabold text-white mb-1">
+            Dependency Edge Constructor
           </h2>
-          <p className="text-xs text-slate-400 mb-4">
+          <p className="text-xs text-slate-400 mb-6 font-normal">
             Connect directed relationships (Upstream → Downstream). Allowed pairs: Activity → Activity, Activity → Approval, Approval → Activity.
           </p>
 
           <form onSubmit={handleCreateDependency} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 items-end mb-6">
             <div>
-              <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1">From Type</label>
+              <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1.5">From Type</label>
               <select
-                className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-slate-100 text-xs focus:outline-none focus:border-sky-500"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-slate-100 text-xs focus:outline-none focus:border-sky-500"
                 value={fromModel}
                 onChange={(e) => { setFromModel(e.target.value); setFromEntity(''); }}
               >
@@ -307,9 +314,9 @@ export default function ActivitiesPage() {
             </div>
 
             <div>
-              <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1">Upstream Entity</label>
+              <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1.5">Upstream Entity</label>
               <select
-                className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-slate-100 text-xs focus:outline-none focus:border-sky-500"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-slate-100 text-xs focus:outline-none focus:border-sky-500"
                 value={fromEntity}
                 onChange={(e) => setFromEntity(e.target.value)}
                 required
@@ -324,9 +331,9 @@ export default function ActivitiesPage() {
             </div>
 
             <div>
-              <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1">To Type</label>
+              <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1.5">To Type</label>
               <select
-                className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-slate-100 text-xs focus:outline-none focus:border-sky-500"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-slate-100 text-xs focus:outline-none focus:border-sky-500"
                 value={toModel}
                 onChange={(e) => { setToModel(e.target.value); setToEntity(''); }}
               >
@@ -336,9 +343,9 @@ export default function ActivitiesPage() {
             </div>
 
             <div>
-              <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1">Downstream Entity</label>
+              <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1.5">Downstream Entity</label>
               <select
-                className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-slate-100 text-xs focus:outline-none focus:border-sky-500"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-slate-100 text-xs focus:outline-none focus:border-sky-500"
                 value={toEntity}
                 onChange={(e) => setToEntity(e.target.value)}
                 required
@@ -355,9 +362,9 @@ export default function ActivitiesPage() {
             <button
               type="submit"
               disabled={submittingDep}
-              className="py-2.5 px-4 rounded-xl font-semibold text-xs bg-gradient-to-r from-sky-500 to-indigo-600 hover:from-sky-400 hover:to-indigo-500 text-white shadow-lg shadow-sky-500/20 transition-all duration-200"
+              className="py-2.5 px-4 rounded-xl font-bold text-xs bg-gradient-to-r from-sky-500 to-indigo-600 hover:from-sky-400 hover:to-indigo-500 text-white shadow-lg shadow-sky-500/20 transition-all duration-200"
             >
-              {submittingDep ? 'Adding...' : '+ Add Edge'}
+              {submittingDep ? 'Adding...' : '+ Add Directed Edge'}
             </button>
           </form>
 
@@ -367,3 +374,4 @@ export default function ActivitiesPage() {
     </div>
   );
 }
+

@@ -1,9 +1,9 @@
-const jwt = require('jsonwebtoken');
-const User = require('../models/User');
+import jwt from 'jsonwebtoken';
+import User from '../models/User.js';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'cis_secret_key_12345';
 
-exports.protect = async (req, res, next) => {
+export const protect = async (req, res, next) => {
   let token;
 
   if (
@@ -31,7 +31,7 @@ exports.protect = async (req, res, next) => {
   }
 };
 
-exports.authorize = (...roles) => {
+export const authorize = (...roles) => {
   return (req, res, next) => {
     if (!req.user || !roles.includes(req.user.role)) {
       return res.status(403).json({
@@ -42,7 +42,7 @@ exports.authorize = (...roles) => {
   };
 };
 
-exports.generateToken = (id) => {
+export const generateToken = (id) => {
   return jwt.sign({ id }, JWT_SECRET, {
     expiresIn: '30d'
   });

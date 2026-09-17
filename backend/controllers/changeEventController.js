@@ -1,11 +1,11 @@
-const ChangeEvent = require('../models/ChangeEvent');
-const ImpactResult = require('../models/ImpactResult');
-const Alert = require('../models/Alert');
-const Action = require('../models/Action');
-const Activity = require('../models/Activity');
-const Approval = require('../models/Approval');
-const impactAnalysis = require('../services/impactAnalysis');
-const { logMemory } = require('../utils/projectMemoryLogger');
+import ChangeEvent from '../models/ChangeEvent.js';
+import ImpactResult from '../models/ImpactResult.js';
+import Alert from '../models/Alert.js';
+import Action from '../models/Action.js';
+import Activity from '../models/Activity.js';
+import Approval from '../models/Approval.js';
+import impactAnalysis from '../services/impactAnalysis.js';
+import { logMemory } from '../utils/projectMemoryLogger.js';
 
 const ALLOWED_TYPES = [
   'material change',
@@ -15,7 +15,7 @@ const ALLOWED_TYPES = [
   'issue'
 ];
 
-exports.createChangeEvent = async (req, res) => {
+export const createChangeEvent = async (req, res) => {
   const { type, description, sourceStakeholder, project, linkedEntities } = req.body;
 
   if (!type || !description || !sourceStakeholder || !project) {
@@ -145,7 +145,7 @@ exports.createChangeEvent = async (req, res) => {
   res.status(201).json(populatedChangeEvent);
 };
 
-exports.getChangeEventById = async (req, res) => {
+export const getChangeEventById = async (req, res) => {
   const changeEvent = await ChangeEvent.findById(req.params.id)
     .populate('sourceStakeholder')
     .populate('impactResult');
@@ -157,7 +157,7 @@ exports.getChangeEventById = async (req, res) => {
   res.json(changeEvent);
 };
 
-exports.getProjectChangeEvents = async (req, res) => {
+export const getProjectChangeEvents = async (req, res) => {
   const { projectId } = req.params;
   const changeEvents = await ChangeEvent.find({ project: projectId })
     .sort({ timestamp: -1 })

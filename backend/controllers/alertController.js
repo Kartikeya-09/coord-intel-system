@@ -1,6 +1,6 @@
-const Alert = require('../models/Alert');
+import Alert from '../models/Alert.js';
 
-exports.getStakeholderAlerts = async (req, res) => {
+export const getStakeholderAlerts = async (req, res) => {
   const { stakeholderId } = req.params;
   const alerts = await Alert.find({ stakeholder: stakeholderId })
     .sort({ createdAt: -1 })
@@ -10,7 +10,7 @@ exports.getStakeholderAlerts = async (req, res) => {
   res.json(alerts);
 };
 
-exports.getUnreadStakeholderAlerts = async (req, res) => {
+export const getUnreadStakeholderAlerts = async (req, res) => {
   const { stakeholderId } = req.params;
   const alerts = await Alert.find({ stakeholder: stakeholderId, isRead: false })
     .sort({ createdAt: -1 })
@@ -20,7 +20,7 @@ exports.getUnreadStakeholderAlerts = async (req, res) => {
   res.json(alerts);
 };
 
-exports.markAlertAsRead = async (req, res) => {
+export const markAlertAsRead = async (req, res) => {
   const alert = await Alert.findById(req.params.id);
   if (!alert) {
     return res.status(404).json({ error: { message: 'Alert not found' } });

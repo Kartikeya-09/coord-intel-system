@@ -1,8 +1,9 @@
-const express = require('express');
+import express from 'express';
+import * as dependencyController from '../controllers/dependencyController.js';
+
 const router = express.Router();
-const dependencyController = require('../controllers/dependencyController');
 
 router.post('/', dependencyController.createDependency);
 router.delete('/:id', dependencyController.deleteDependency);
 
-module.exports = router;
+export default router;

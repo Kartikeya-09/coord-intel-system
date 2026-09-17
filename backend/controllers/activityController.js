@@ -1,6 +1,6 @@
-const Activity = require('../models/Activity');
+import Activity from '../models/Activity.js';
 
-exports.createActivity = async (req, res) => {
+export const createActivity = async (req, res) => {
   const { name, description, owner, project, status, dueDate } = req.body;
 
   if (!name || !owner || !project) {
@@ -23,7 +23,7 @@ exports.createActivity = async (req, res) => {
   res.status(201).json(populated);
 };
 
-exports.getActivityById = async (req, res) => {
+export const getActivityById = async (req, res) => {
   const activity = await Activity.findById(req.params.id).populate('owner');
   if (!activity) {
     return res.status(404).json({ error: { message: 'Activity not found' } });
@@ -31,7 +31,7 @@ exports.getActivityById = async (req, res) => {
   res.json(activity);
 };
 
-exports.updateActivity = async (req, res) => {
+export const updateActivity = async (req, res) => {
   const { name, description, owner, status, dueDate } = req.body;
   const activity = await Activity.findById(req.params.id);
 
@@ -50,7 +50,7 @@ exports.updateActivity = async (req, res) => {
   res.json(updated);
 };
 
-exports.getProjectActivities = async (req, res) => {
+export const getProjectActivities = async (req, res) => {
   const { projectId } = req.params;
   const activities = await Activity.find({ project: projectId }).populate('owner');
   res.json(activities);

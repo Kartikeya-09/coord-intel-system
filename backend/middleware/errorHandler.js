@@ -1,4 +1,4 @@
-module.exports = function errorHandler(err, req, res, next) {
+export default function errorHandler(err, req, res, next) {
   if (err.name === 'ValidationError') {
     return res.status(400).json({
       error: {
@@ -19,4 +19,4 @@ module.exports = function errorHandler(err, req, res, next) {
       ...(process.env.NODE_ENV !== 'production' && { stack: err.stack })
     }
   });
-};
+}

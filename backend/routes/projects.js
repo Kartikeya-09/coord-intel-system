@@ -1,13 +1,13 @@
-const express = require('express');
-const router = express.Router();
-const projectController = require('../controllers/projectController');
+import express from 'express';
+import * as projectController from '../controllers/projectController.js';
+import * as activityController from '../controllers/activityController.js';
+import * as dependencyController from '../controllers/dependencyController.js';
+import * as approvalController from '../controllers/approvalController.js';
+import * as changeEventController from '../controllers/changeEventController.js';
+import * as actionController from '../controllers/actionController.js';
+import * as projectMemoryController from '../controllers/projectMemoryController.js';
 
-const activityController = require('../controllers/activityController');
-const dependencyController = require('../controllers/dependencyController');
-const approvalController = require('../controllers/approvalController');
-const changeEventController = require('../controllers/changeEventController');
-const actionController = require('../controllers/actionController');
-const projectMemoryController = require('../controllers/projectMemoryController');
+const router = express.Router();
 
 router.post('/', projectController.createProject);
 router.get('/', projectController.getProjects);
@@ -27,4 +27,4 @@ router.get('/:projectId/stakeholders', projectController.getProjectStakeholders)
 router.post('/:projectId/stakeholders/:stakeholderId', projectController.addProjectStakeholder);
 router.delete('/:projectId/stakeholders/:stakeholderId', projectController.removeProjectStakeholder);
 
-module.exports = router;
+export default router;

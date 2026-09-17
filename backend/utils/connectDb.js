@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
-const { MongoMemoryServer } = require('mongodb-memory-server');
+import mongoose from 'mongoose';
+import { MongoMemoryServer } from 'mongodb-memory-server';
 
 let memServer = null;
 
@@ -8,7 +8,7 @@ let memServer = null;
  * If process.env.MONGO_URI is set (e.g. MongoDB Atlas cloud), connects directly to it.
  * If local localhost URI is used and local MongoDB is not running, falls back to embedded MongoMemoryServer.
  */
-async function connectDb() {
+export async function connectDb() {
   const uri = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/cis';
   const isCloudUri = process.env.MONGO_URI && process.env.MONGO_URI.includes('mongodb+srv://');
 
@@ -43,11 +43,9 @@ async function connectDb() {
   }
 }
 
-async function disconnectDb() {
+export async function disconnectDb() {
   await mongoose.disconnect();
   if (memServer) {
     await memServer.stop();
   }
 }
-
-module.exports = { connectDb, disconnectDb };

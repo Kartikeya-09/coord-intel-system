@@ -1,6 +1,6 @@
-const Dependency = require('../models/Dependency');
-const Activity = require('../models/Activity');
-const Approval = require('../models/Approval');
+import Dependency from '../models/Dependency.js';
+import Activity from '../models/Activity.js';
+import Approval from '../models/Approval.js';
 
 /**
  * Recalculates and updates downstream activity blocking status when an Approval's status changes.
@@ -9,7 +9,7 @@ const Approval = require('../models/Approval');
  * @param {string} newStatus  - 'pending' | 'approved' | 'rejected'
  * @param {string} projectId   - ObjectId string of the Project
  */
-async function applyBlockingForApproval(approvalId, newStatus, projectId) {
+export async function applyBlockingForApproval(approvalId, newStatus, projectId) {
   // Find all dependencies where this approval is upstream of an Activity
   const downstreamEdges = await Dependency.find({
     project: projectId,
@@ -56,7 +56,3 @@ async function applyBlockingForApproval(approvalId, newStatus, projectId) {
     }
   }
 }
-
-module.exports = {
-  applyBlockingForApproval
-};

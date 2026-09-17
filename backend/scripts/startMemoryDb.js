@@ -1,5 +1,5 @@
-require('dotenv').config();
-const { MongoMemoryServer } = require('mongodb-memory-server');
+import 'dotenv/config';
+import { MongoMemoryServer } from 'mongodb-memory-server';
 
 async function start() {
   try {

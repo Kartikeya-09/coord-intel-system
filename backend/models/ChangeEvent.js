@@ -1,4 +1,5 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
+
 const { Schema } = mongoose;
 
 const ChangeEventSchema = new Schema(
@@ -25,4 +26,4 @@ const ChangeEventSchema = new Schema(
 
 ChangeEventSchema.index({ project: 1, timestamp: -1 });
 
-module.exports = mongoose.model('ChangeEvent', ChangeEventSchema);
+export default mongoose.model('ChangeEvent', ChangeEventSchema);

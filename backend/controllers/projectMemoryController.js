@@ -1,6 +1,6 @@
-const ProjectMemory = require('../models/ProjectMemory');
+import ProjectMemory from '../models/ProjectMemory.js';
 
-exports.getProjectMemory = async (req, res) => {
+export const getProjectMemory = async (req, res) => {
   const { projectId } = req.params;
   const { type, q } = req.query;
 

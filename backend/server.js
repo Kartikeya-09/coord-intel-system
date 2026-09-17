@@ -1,9 +1,21 @@
-require('dotenv').config();
-require('express-async-errors');
-const express = require('express');
-const cors = require('cors');
-const mongoose = require('mongoose');
-const errorHandler = require('./middleware/errorHandler');
+import 'dotenv/config';
+import 'express-async-errors';
+import express from 'express';
+import cors from 'cors';
+import errorHandler from './middleware/errorHandler.js';
+import { connectDb } from './utils/connectDb.js';
+
+import authRoutes from './routes/auth.js';
+import userRoutes from './routes/users.js';
+import stakeholderRoutes from './routes/stakeholders.js';
+import projectRoutes from './routes/projects.js';
+import activityRoutes from './routes/activities.js';
+import dependencyRoutes from './routes/dependencies.js';
+import changeEventRoutes from './routes/changeEvents.js';
+import impactResultRoutes from './routes/impactResults.js';
+import actionRoutes from './routes/actions.js';
+import approvalRoutes from './routes/approvals.js';
+import alertRoutes from './routes/alerts.js';
 
 const app = express();
 
@@ -16,18 +28,18 @@ app.get('/api/v1/health', (req, res) => {
   res.json({ status: 'ok' });
 });
 
-// Route Mounting Stubs (will be replaced as routes are built)
-app.use('/api/v1/auth', require('./routes/auth'));
-app.use('/api/v1/stakeholders', require('./routes/stakeholders'));
-app.use('/api/v1/projects', require('./routes/projects'));
-app.use('/api/v1/activities', require('./routes/activities'));
-app.use('/api/v1/dependencies', require('./routes/dependencies'));
-app.use('/api/v1/change-events', require('./routes/changeEvents'));
-app.use('/api/v1/impact-results', require('./routes/impactResults'));
-app.use('/api/v1/actions', require('./routes/actions'));
-app.use('/api/v1/approvals', require('./routes/approvals'));
-app.use('/api/v1/alerts', require('./routes/alerts'));
-// app.use('/api/v1/projects', require('./routes/projectMemory'));
+// Route Mounting
+app.use('/api/v1/auth', authRoutes);
+app.use('/api/v1/users', userRoutes);
+app.use('/api/v1/stakeholders', stakeholderRoutes);
+app.use('/api/v1/projects', projectRoutes);
+app.use('/api/v1/activities', activityRoutes);
+app.use('/api/v1/dependencies', dependencyRoutes);
+app.use('/api/v1/change-events', changeEventRoutes);
+app.use('/api/v1/impact-results', impactResultRoutes);
+app.use('/api/v1/actions', actionRoutes);
+app.use('/api/v1/approvals', approvalRoutes);
+app.use('/api/v1/alerts', alertRoutes);
 
 // 404 Catch-all
 app.use((req, res) => {
@@ -38,7 +50,6 @@ app.use((req, res) => {
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
-const { connectDb } = require('./utils/connectDb');
 
 if (process.env.NODE_ENV !== 'test') {
   connectDb()
@@ -52,4 +63,4 @@ if (process.env.NODE_ENV !== 'test') {
     });
 }
 
-module.exports = app;
+export default app;
