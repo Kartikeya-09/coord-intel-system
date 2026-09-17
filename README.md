@@ -1,6 +1,52 @@
 # Coordination Intelligence System (CIS)
 
-The Coordination Intelligence System (CIS) is a web application for the architecture, interior design, and construction (AIC) industry. It acts as a coordination intelligence layer for multi-stakeholder projects, replacing manual, ad-hoc coordination (WhatsApp, email, spreadsheets) with a structured system that understands relationships between people, tasks, changes, and approvals.
+A full-stack web application that eliminates the "coordination black hole" in architecture, interior design, and construction projects — automatically tracing how a single change ripples across stakeholders, tasks, approvals, and dependencies.
+
+**Live Demo:**
+- Frontend: https://frontend-three-olive-42.vercel.app/
+- Backend API: https://coord-intel-system.onrender.com/api/v1
+
+---
+
+## The Problem
+
+Construction and interior fit-out projects involve many stakeholders — clients, architects, interior designers, project managers, contractors, vendors, and specialists. Information is scattered across WhatsApp, email, calls, and spreadsheets. When one stakeholder makes a change, it's often unclear:
+
+- Who is responsible for what
+- Who is affected by a change
+- What depends on what
+- What requires approval
+- What is currently blocked
+- What needs to happen next
+
+CIS acts as a **coordination intelligence layer** — connecting stakeholders, activities, changes, dependencies, and approvals so that impact is identified automatically instead of relying on manual coordination and individual memory.
+
+---
+
+## Core Features
+
+| Module | Description |
+|---|---|
+| **Stakeholder & Role Management** | Track stakeholders, their roles, and responsibility areas per project |
+| **Activity & Change Tracking** | Log activities, decisions, issues, and change events as they happen |
+| **Impact Analysis** ⭐ | Automatically traces a change through the dependency graph to identify affected activities, approvals, and stakeholders |
+| **Dependency Management** | Model dependencies between tasks, activities, approvals, and deliverables |
+| **Action Tracking** | Auto-generate and assign actions in response to identified impact |
+| **Approval Management** | Track required approvals and what's blocked pending sign-off |
+| **Coordination Alerts** | Notify affected stakeholders automatically when a change occurs |
+| **Project Memory** | An auditable, chronological log of every change, decision, and resolution |
+
+Access is role-scoped: **Admin/PM**, **Client**, and **Stakeholder** roles each see only what's relevant to them.
+
+---
+
+## Tech Stack
+
+- **Frontend:** Next.js, Tailwind CSS
+- **Backend:** Node.js, Express
+- **Database:** MongoDB Atlas
+- **Auth:** JWT-based authentication with role-based access control (RBAC)
+- **Deployment:** Vercel (frontend), Render (backend)
 
 ---
 
@@ -8,88 +54,107 @@ The Coordination Intelligence System (CIS) is a web application for the architec
 
 ```
 coord-intel-system/
-├── backend/                  # Express.js REST API with MongoDB (Mongoose)
-│   ├── models/               # Mongoose schemas (Stakeholder, Project, Activity, Approval, etc.)
-│   ├── routes/               # REST API endpoints
-│   ├── controllers/          # Endpoint request handlers
-│   ├── services/             # Pure intelligence logic (impactAnalysis, dependencyService, etc.)
-│   ├── scripts/              # Seed & utility scripts (seedDemo.js, clearDemo.js)
-│   └── tests/                # Unit & integration tests
-└── frontend/                 # Next.js frontend (Pages Router)
-    ├── pages/                # Next.js pages (Dashboard, Stakeholders, Activities, Changes, etc.)
-    ├── components/           # UI components (ImpactSummary, ReasoningChain, ActionCard, etc.)
-    └── lib/                  # API client wrapper
+├── backend/
+│   ├── models/          # Mongoose schemas (Stakeholder, Task, Dependency, etc.)
+│   ├── routes/          # Express API routes
+│   ├── controllers/
+│   ├── services/        # Impact traversal / dependency graph logic
+│   ├── config/          # DB connection, env
+│   ├── server.js
+│   └── package.json
+├── frontend/
+│   ├── pages/
+│   ├── components/
+│   ├── lib/              # API client calls to backend
+│   ├── styles/
+│   └── package.json
+└── README.md
 ```
 
 ---
 
-## Getting Started
+## Getting Started (Local Development)
 
 ### Prerequisites
-- Node.js (v18+)
-- MongoDB running locally at `mongodb://localhost:27017/cis` (or custom URI configured in `backend/.env`)
+- Node.js (v18+ recommended)
+- A MongoDB Atlas cluster (or local MongoDB instance)
 
-### 1. Backend Setup
+### 1. Clone the repository
+```bash
+git clone <your-repo-url>
+cd coord-intel-system
+```
 
+### 2. Backend Setup
 ```bash
 cd backend
 npm install
-npm run dev
 ```
 
-The Express API server starts at `http://localhost:5000`. Test the health check endpoint at:
-`http://localhost:5000/api/v1/health`
+Create a `.env` file in `backend/`:
+```dotenv
+MONGODB_URI=your_mongodb_connection_string
+JWT_SECRET=your_jwt_secret
+CORS_ORIGIN=http://localhost:3000
+PORT=5000
+```
 
-### 2. Frontend Setup
+Run the backend:
+```bash
+npm run dev
+```
+The API will be available at `http://localhost:5000/api/v1`.
 
+### 3. Frontend Setup
 ```bash
 cd frontend
 npm install
+```
+
+Create a `.env.local` file in `frontend/`:
+```dotenv
+NEXT_PUBLIC_API_URL=http://localhost:5000/api/v1
+```
+
+Run the frontend:
+```bash
 npm run dev
 ```
-
-The Next.js web application starts at `http://localhost:3000`.
-
----
-
-## Running Tests
-
-To execute unit and integration test suites:
-
-```bash
-cd backend
-npm test
-```
+The app will be available at `http://localhost:3000`.
 
 ---
 
-## Demo Seed Script & UI Walkthrough
+## Deployment
 
-We provide a standalone seed script to automatically populate the database with a complete demo scenario (residential fit-out project with 6 stakeholders, activities, approvals, dependencies, and a logged change event with BFS impact analysis).
+**Backend (Render):**
+- Root Directory: `backend`
+- Build Command: `npm install`
+- Start Command: `node server.js`
+- Environment Variables: `MONGODB_URI`, `JWT_SECRET`, `CORS_ORIGIN` (set to your live frontend URL, no trailing slash)
 
-### 1. Seed Demo Data
+**Frontend (Vercel):**
+- Root Directory: `frontend`
+- Framework Preset: Next.js (auto-detected)
+- Environment Variables: `NEXT_PUBLIC_API_URL` (set to your live Render backend URL + `/api/v1`)
 
-Make sure your MongoDB server is running, then execute:
+> **Note:** `NEXT_PUBLIC_*` environment variables are baked in at build time — redeploy the frontend after changing them. Similarly, redeploy the backend after changing `CORS_ORIGIN`, and ensure the value has no trailing slash (CORS origin matching is exact-string).
 
-```bash
-node backend/scripts/seedDemo.js
-```
+---
 
-To clear the database at any time:
+## Demo Scenario
 
-```bash
-node backend/scripts/clearDemo.js
-```
+A residential interior fit-out project — **Patel Residence Fit-Out** — with stakeholders including the Client, Interior Designer, Architect, Procurement Vendor, Site Contractor, and Project Manager.
 
-### 2. End-to-End Walkthrough Steps
+When the Interior Designer changes the flooring material mid-project, CIS automatically:
+1. Flags the Procurement Vendor's material order as blocked
+2. Flags the Site Contractor's installation schedule as affected
+3. Flags the Client's budget approval as needing re-triggering
+4. Auto-generates actions for the PM and Vendor
+5. Sends coordination alerts to every affected stakeholder
+6. Logs the full chain in Project Memory
 
-1. Open **`http://localhost:3000`** in your browser. It will automatically redirect to `/projects`.
-2. Click on the seeded project: **"Patel Residence Fit-Out"**.
-3. **Dashboard (`/projects/<id>`)**: View open actions, pending approvals, stakeholder counts, and recent project memory entries.
-4. **Stakeholders (`/projects/<id>/stakeholders`)**: View the 6 project stakeholders and their assigned responsibility areas.
-5. **Activities & Dependency Manager (`/projects/<id>/activities`)**: View activities, blocked flags, and dependency edges.
-6. **Change Events (`/projects/<id>/changes`)**: Click **"View Impact Analysis"** on the seeded change event (*"Flooring material changed from engineered wood to Italian marble"*) to inspect the **Impact Traversal Summary** and step-by-step **Reasoning Chains**.
-7. **Actions Board (`/projects/<id>/actions`)**: Inspect open auto-generated actions grouped by assigned stakeholder (Vendor, Contractor, Client).
-8. **Approvals (`/projects/<id>/approvals`)**: Toggle approval statuses to see real-time downstream activity blocking & unblocking.
-9. **Alerts Inbox (`/projects/<id>/alerts`)**: Select any stakeholder from the dropdown to see their personalized impact alert notifications.
-10. **Project Memory (`/projects/<id>/memory`)**: Filter or keyword-search the immutable, append-only log of all project events.
+---
+
+## License
+
+This project was built as a prototype/hackathon submission and is not licensed for production use as-is.
