@@ -1,0 +1,19 @@
+# Kiro workspace files
+.kiro/
+
+# Environment and secrets anywhere in the repository
+.env
+.env.*
+!.env.example
+
+# Dependencies and generated output anywhere in the repository
+**/node_modules/
+**/.next/
+**/dist/
+**/build/
+**/coverage/
+
+# Logs and local files
+**/*.log
+.DS_Store
+Thumbs.db
